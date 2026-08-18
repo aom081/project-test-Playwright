@@ -51,3 +51,4 @@
 ```bash
 npm run test:e2e -- tests/dashboard.spec.ts --project chromium
 ```
+npx playwright install

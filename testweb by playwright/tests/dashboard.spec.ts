@@ -125,9 +125,7 @@ test('renders KPI cards and event stream count from mock data', async ({ page })
   await expect(page.getByText('Avg. response')).toBeVisible()
   await expect(page.getByText('240 ms')).toBeVisible()
   await expect(page.getByText('Open incidents')).toBeVisible()
-  await expect(
-  page.locator('.metric-card', { hasText: 'Open incidents' }).locator('strong')
-).toHaveText('3')
+  await expect(page.locator('.metric-card', { hasText: 'Open incidents' }).locator('strong')).toHaveText('3')
 
   await expect(page.locator('.activity-list li')).toHaveCount(4)
   await expect(page.getByText('4 entries')).toBeVisible()
