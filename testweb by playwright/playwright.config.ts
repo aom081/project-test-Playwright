@@ -6,14 +6,8 @@ export default defineConfig({
   retries: 0,
   reporter: 'list',
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: 'https://project-test-playwright.vercel.app',
     trace: 'on-first-retry',
-  },
-  webServer: {
-    command: 'npm.cmd run dev -- --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173',
-    reuseExistingServer: true,
-    timeout: 120000,
   },
   projects: [
     {
