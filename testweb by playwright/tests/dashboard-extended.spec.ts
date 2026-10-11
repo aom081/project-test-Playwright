@@ -178,6 +178,7 @@ test.describe('Stability', { tag: '@regression' }, () => {
 
     for (const { label } of ranges) await dashboard.selectRange(label)
     for (const segment of segments) await dashboard.selectSegment(segment)
+    await dashboard.selectSegment('All')
     await dashboard.search('orbital')
     await dashboard.selectOrder('ORD-9824')
     await dashboard.actionButton('Approve').click()

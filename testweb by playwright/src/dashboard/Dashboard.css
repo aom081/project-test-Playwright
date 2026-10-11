@@ -182,6 +182,7 @@
 
 .panel {
   padding: 22px;
+  min-width: 0;
 }
 
 .panel-chart,
