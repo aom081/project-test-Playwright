@@ -19,11 +19,9 @@
 
 ## เทสต์ที่มีอยู่
 
-ตอนนี้มี Playwright e2e test 3 เคสใน [tests/dashboard.spec.ts](tests/dashboard.spec.ts)
-
-1. ตรวจการแสดงผลเริ่มต้นและการสลับช่วงเวลา `30 days`, `90 days`, และ `7 days`
-2. ตรวจการกรองตารางด้วย segment `SMB` / `Enterprise` / `All` และการค้นหาด้วยคำว่า `Orbital`
-3. ตรวจการเลือกแถวในตาราง, การอัปเดต inspector, action ในแผงรายละเอียด, และการสลับ compact view
+- `tests/dashboard.spec.ts` — 11 เทสต์เดิม (TC-01 ถึง TC-22 ใน SPRS-Test-Cases)
+- `tests/dashboard-extended.spec.ts` — 15 test case ใหม่ (TC-23 ถึง TC-37) แยกกลุ่มด้วย tag
+- รายละเอียดทั้งหมดดูที่ [docs/TEST-PLAN.md](docs/TEST-PLAN.md)
 
 ## คำสั่งรัน
 
@@ -36,19 +34,22 @@
 
 ## หมายเหตุ
 
-- Playwright ถูกตั้งค่าให้รัน dev server อัตโนมัติผ่าน `playwright.config.ts`
+- Playwright รัน dev server อัตโนมัติผ่าน `webServer` ใน `playwright.config.ts` (ข้ามเมื่อกำหนด `BASE_URL`)
 - หากยังไม่ได้ติดตั้ง browser ของ Playwright ให้รัน `npx playwright install chromium` ก่อน
 
-## การจับภาพหน้าจอขณะรันเทสต์
+## การจับภาพหน้าจอ / วิดีโอ / trace
 
-- ขณะนี้โค้ดเทสต์ถูกตั้งค่าให้บันทึกภาพหน้าจอเฉพาะเมื่อเทสต์ล้มเหลว (หลังทดสอบแต่ละเคสจะเรียก `afterEach` เพื่อตรวจสถานะ)
-- ไฟล์ภาพจะถูกเก็บที่โฟลเดอร์ `tests/img` โดยตั้งชื่อตามรูปแบบ: `tests/img/<test-title>-<timestamp>.png` (เครื่องหมายไม่อนุญาตในชื่อเทสต์จะถูกแทนด้วย `_`)
-- มีเทสต์ตัวอย่างที่ล้มเหลวตั้งใจไว้ชื่อ `intentional failure to trigger screenshot` เพื่อให้เห็นตัวอย่างไฟล์ภาพที่ถูกบันทึกหลังการรัน
-- หากต้องการเปลี่ยนเป็นบันทึกภาพทุกเคส ให้ปรับตำแหน่งที่เรียก `page.screenshot()` ภายในเทสต์แต่ละเคส หรือตั้งค่า `afterEach` ให้ไม่เช็กสถานะก่อนบันทึก
+ตั้งค่าใน `playwright.config.ts` แล้ว: screenshot และ video เก็บเฉพาะเมื่อเทสต์ล้มเหลว, trace เก็บเมื่อ retry ครั้งแรก
+ผลลัพธ์อยู่ใน `test-results/` และรายงาน HTML อยู่ใน `playwright-report/` (เปิดด้วย `npm run test:e2e:report`)
 
-ตัวอย่างคำสั่งรันเทสต์ (จะบันทึกภาพเฉพาะเมื่อเทสต์ล้มเหลว):
+## Test run options
 
-```bash
-npm run test:e2e -- tests/dashboard.spec.ts --project chromium
-```
-npx playwright install
+| Goal | Command |
+| --- | --- |
+| Everything, all browsers | `npm run test:e2e` |
+| Chromium only (fast) | `npm run test:e2e:chromium` |
+| By area | `npm run test:e2e:functional` / `:chart` / `:a11y` / `:responsive` |
+| Against the deployed site | PowerShell: `$env:BASE_URL="https://project-test-playwright.vercel.app"; npm run test:e2e` |
+| Install browsers (first time) | `npm run test:e2e:install` |
+
+When `BASE_URL` is not set, Playwright starts the Vite dev server itself on `http://127.0.0.1:4173`.

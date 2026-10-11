@@ -9,7 +9,14 @@
     "lint": "oxlint",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e:chromium": "playwright test --project=chromium",
+    "test:e2e:functional": "playwright test --grep @functional",
+    "test:e2e:chart": "playwright test --grep @chart",
+    "test:e2e:a11y": "playwright test --grep @a11y",
+    "test:e2e:responsive": "playwright test --grep @responsive",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:install": "playwright install --with-deps"
   },
   "dependencies": {
     "react": "^19.2.8",

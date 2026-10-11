@@ -1,6 +1,4 @@
 import { expect, test } from '@playwright/test'
-import fs from 'fs'
-import path from 'path'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
@@ -129,19 +127,4 @@ test('renders KPI cards and event stream count from mock data', async ({ page })
 
   await expect(page.locator('.activity-list li')).toHaveCount(4)
   await expect(page.getByText('4 entries')).toBeVisible()
-})
-
-test.afterEach(async ({ page }, testInfo) => {
-  if (testInfo.status !== 'passed') {
-    const imgDir = path.join(path.dirname(testInfo.file), 'img')
-    await fs.promises.mkdir(imgDir, { recursive: true })
-    const safeName = testInfo.title.replace(/[^a-z0-9_-]/gi, '_')
-    const fileName = path.join(imgDir, `${safeName}-${Date.now()}.png`)
-    await page.screenshot({ path: fileName, fullPage: true })
-  }
-})
-
-test('intentional failure to trigger screenshot', async ({ page }) => {
-  // Intentionally assert on missing text to force a failure and capture
-  await expect(page.getByText('THIS_TEXT_SHOULD_NOT_EXIST')).toBeVisible()
 })
